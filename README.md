@@ -1,6 +1,8 @@
 XmlSplit
 ========
 
+[![Build Status](https://travis-ci.org/remuslazar/node-xmlsplit.svg?branch=master)](https://travis-ci.org/remuslazar/node-xmlsplit)
+
 Abstract
 --------
 
