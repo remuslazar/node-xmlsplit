@@ -1,0 +1,21 @@
+{
+  "name": "xmlsplit",
+  "version": "1.0.0",
+  "description": "Streaming XML file splitter",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/mocha/bin/mocha tests/*.js"
+  },
+  "keywords": [
+    "xml,split"
+  ],
+  "author": "Remus Lazar <rl@cron.eu>",
+  "license": "MIT",
+  "dependencies": {
+    "util": "^0.10.3"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.0",
+    "should": "^7.1.0"
+  }
+}
