@@ -8,9 +8,6 @@ This utility helps you dealing with (very) large XML input files, splitting them
 into smaller chunks of valid XML files, which can be processed sequentially (in memory)
 using e.g. libxmljs.
 
-This implementation uses the Node.js
-[stream.Transform API](https://nodejs.org/api/stream.html#stream_class_stream_transform_1).
-
 
 Motivation
 ----------
@@ -27,6 +24,24 @@ not quite good enough for some applications.
 
 To handle the XML parsing part, plain JavaScript Strings and methods (.slice, split)
 are being used, for obvious reasons.
+
+API
+---
+
+Initialize a new object
+
+```
+var xmlsplit = new XmlSplit(batchSize=1)
+```
+
+and use the
+[stream.Transform API](https://nodejs.org/api/stream.html#stream_class_stream_transform_1)
+to pass your XML data through.
+
+The optional batchSize argument sets the number of items in each XML document.
+
+The awesome [Stream Handbook]https://github.com/substack/stream-handbook)) covers
+the basics of Node.js Stream and is a "must read"..
 
 
 Example
