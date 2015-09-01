@@ -47,8 +47,11 @@ Using this code snippet:
 
 ```
 var XmlSplit = require('./lib/xmlsplit.js')
+
+var xmlsplit = new XmlSplit()
 var inputStream = fs.createReadStream() // from somewhere
-inputStream.on('data', function(data) {
+
+inputStream.pipe(xmlsplit).on('data', function(data) {
     var xmlDocument = data.toString()
     // do something with xmlDocument ..
 })
