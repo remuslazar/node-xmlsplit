@@ -39,4 +39,26 @@ describe('XmlSplit', function() {
     })
   })
 
+  it('input stream line by line', function(done) {
+    xmlSplit = new XmlSplit()
+    fs.readFileSync(path.resolve(__dirname, 'fixtures/items.xml'), 'utf8')
+    .split(/\n/)
+    .forEach(function(line) {
+      xmlSplit.write(line + "\n", 'utf8')
+    })
+    xmlSplit.end()
+
+    var count=0
+    xmlSplit.on('data', function(data) {
+      count++
+      if (count === 1) {
+        data.toString().should.eql(firstDoc.trim())
+      }
+    }).on('header', function(header) {
+      header.should.be.not.empty()
+    }).on('end', function() {
+      done()
+    })
+  })
+
 })
