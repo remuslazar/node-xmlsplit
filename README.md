@@ -31,12 +31,15 @@ API
 Initialize a new object
 
 ```
-var xmlsplit = new XmlSplit(batchSize=1)
+var xmlsplit = new XmlSplit(batchSize=1, tagName=<autodetect>)
 ```
 
 and use the
 [stream.Transform API](https://nodejs.org/api/stream.html#stream_class_stream_transform_1)
 to pass your XML data through.
+
+By default, it splits children of the root, but the tag name can be specified
+with the constructor's second argument.
 
 The optional batchSize argument sets the number of items in each XML document.
 

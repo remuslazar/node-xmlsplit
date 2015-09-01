@@ -15,7 +15,7 @@ describe('XmlSplit', function() {
     })
 
     beforeEach(function() {
-      xmlSplit = new XmlSplit()
+      xmlSplit = new XmlSplit(null, 'item')
       var stream = fs.createReadStream(path.resolve(__dirname, 'fixtures/items.xml'))
       stream.pipe(xmlSplit)
     })
@@ -54,7 +54,7 @@ describe('XmlSplit', function() {
     })
 
     it('input stream line by line', function(done) {
-      var xmlSplit = new XmlSplit()
+      var xmlSplit = new XmlSplit(null, 'item')
       fs.readFileSync(path.resolve(__dirname, 'fixtures/items.xml'), 'utf8')
       .split(/\n/)
       .forEach(function(line) {
@@ -81,7 +81,7 @@ describe('XmlSplit', function() {
       // checks if the number of chunks while using a batchsize > 2 is correct
       var batchSizes = [2,3,5,10,20,100]
       batchSizes.forEach(function(batchSize, index) {
-        var xmlSplit = new XmlSplit(batchSize)
+        var xmlSplit = new XmlSplit(batchSize, 'item')
         var stream = fs.createReadStream(path.resolve(__dirname, 'fixtures/items.xml'))
         stream.pipe(xmlSplit)
         var count = 0
@@ -92,6 +92,24 @@ describe('XmlSplit', function() {
           count.should.be.eql(expectedNumberOfChunks)
           if (index === batchSizes.length-1) done()
         })
+      })
+    })
+  })
+
+  describe('Misc', function() {
+    it('autodetect tag', function(done) {
+      var xmlSplit = new XmlSplit()
+      var stream = fs.createReadStream(path.resolve(__dirname, 'fixtures/items-autodetect.xml'))
+      stream.pipe(xmlSplit)
+      var count = 0
+      xmlSplit.on('data', function(data) {
+        count++
+        if (count === 1) {
+          data.toString().should.eql(fs.readFileSync(path.resolve(__dirname, 'fixtures/first_item-autodetect.xml'), 'utf8').trim())
+        }
+      }).on('end', function() {
+        count.should.be.eql(10)
+        done()
       })
     })
   })
