@@ -45,7 +45,7 @@ with the constructor's second argument.
 
 The optional batchSize argument sets the number of items in each XML document.
 
-The awesome [Stream Handbook]https://github.com/substack/stream-handbook)) covers
+The awesome [Stream Handbook](https://github.com/substack/stream-handbook) covers
 the basics of Node.js Stream and is a "must read"..
 
 
