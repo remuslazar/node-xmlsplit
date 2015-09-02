@@ -2,6 +2,10 @@
   "name": "xmlsplit",
   "version": "1.2.0",
   "description": "Streaming XML file splitter",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/remuslazar/node-xmlsplit.git"
+  },
   "main": "index.js",
   "scripts": {
     "test": "node_modules/mocha/bin/mocha tests/*.js"
