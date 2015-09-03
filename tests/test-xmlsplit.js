@@ -74,6 +74,62 @@ describe('XmlSplit', function() {
         done()
       })
     })
+
+    String.prototype.t = function() {
+      return this.replace(/>\s+</g, '><').trim()
+    }
+
+    it('input stream char by char with trimmed whitespace', function(done) {
+
+      var xmlSplit = new XmlSplit(null, 'item')
+      fs.readFileSync(path.resolve(__dirname, 'fixtures/items.xml'), 'utf8')
+      .t()
+      .split("")
+      .forEach(function(c) {
+        xmlSplit.write(c, 'utf8')
+      })
+      xmlSplit.end()
+
+      var count=0
+      xmlSplit.on('data', function(data) {
+        count++
+        if (count === 1) {
+          data.toString().should.eql(firstDoc.t())
+        }
+      }).on('header', function(header) {
+        header.should.be.not.empty()
+      }).on('end', function() {
+        count.should.be.eql(10)
+        done()
+      })
+    })
+
+    it('input stream char by char with trimmed whitespace and autodetect tag', function(done) {
+
+      firstDoc = fs.readFileSync(path.resolve(__dirname, 'fixtures/first_item-autodetect.xml'), 'utf8')
+      var xmlSplit = new XmlSplit()
+      fs.readFileSync(path.resolve(__dirname, 'fixtures/items-autodetect.xml'), 'utf8')
+      .t()
+      .split("")
+      .forEach(function(c) {
+        xmlSplit.write(c, 'utf8')
+      })
+      xmlSplit.end()
+
+      var count=0
+      xmlSplit.on('data', function(data) {
+        count++
+        if (count === 1) {
+          data.toString().should.eql(firstDoc.t())
+        }
+      }).on('header', function(header) {
+        header.should.be.not.empty()
+      }).on('end', function() {
+        count.should.be.eql(10)
+        done()
+      })
+    })
+
   })
 
   describe('Batch size feature', function() {
