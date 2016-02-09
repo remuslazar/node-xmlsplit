@@ -171,19 +171,47 @@ describe('XmlSplit', function() {
   })
 
   describe('XML input file with comments', function() {
+
+    var xmlSplit
+      , fixtureFilename = 'fixtures/xml-sample-with-comments.xml'
+
+    before(function() {
+      xmlSplit = new XmlSplit(1, 'book')
+    })
+
     it('should parse file', function(done) {
-      var xmlSplit = new XmlSplit()
-      var stream = fs.createReadStream(path.resolve(__dirname, 'fixtures/xml-sample-with-comments.xml'))
+      var stream = fs.createReadStream(path.resolve(__dirname, fixtureFilename))
       stream.pipe(xmlSplit)
+
       var count = 0
       xmlSplit.on('data', function(data) {
         count++
       }).on('end', function() {
-        count.should.be.eql(1)
+        count.should.be.eql(2)
         done()
       })
-
     })
+
+    it('should parse file line by line', function(done) {
+      var xmlSplit = new XmlSplit(1, 'book')
+
+      fs.readFileSync(path.resolve(__dirname, fixtureFilename), 'utf8')
+      .split(/\n/)
+      .forEach(function(line) {
+        xmlSplit.write(line + "\n", 'utf8')
+      })
+      xmlSplit.end()
+
+      var count = 0
+      xmlSplit.on('data', function(data) {
+        count++
+      }).on('end', function() {
+        count.should.be.eql(2)
+        done()
+      })
+    })
+
+
   })
 
 })
