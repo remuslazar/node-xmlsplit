@@ -170,4 +170,20 @@ describe('XmlSplit', function() {
     })
   })
 
+  describe('XML input file with comments', function() {
+    it('should parse file', function(done) {
+      var xmlSplit = new XmlSplit()
+      var stream = fs.createReadStream(path.resolve(__dirname, 'fixtures/xml-sample-with-comments.xml'))
+      stream.pipe(xmlSplit)
+      var count = 0
+      xmlSplit.on('data', function(data) {
+        count++
+      }).on('end', function() {
+        count.should.be.eql(1)
+        done()
+      })
+
+    })
+  })
+
 })
