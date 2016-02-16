@@ -214,4 +214,48 @@ describe('XmlSplit', function() {
 
   })
 
+  describe('XML input file with split tag in the inner XML block', function() {
+
+    var xmlSplit
+      , fixtureFilename = 'fixtures/xml-sample-with-inner-tag.xml'
+
+    before(function() {
+      xmlSplit = new XmlSplit(1, 'book')
+    })
+
+    it('should parse file', function(done) {
+      var stream = fs.createReadStream(path.resolve(__dirname, fixtureFilename))
+      stream.pipe(xmlSplit)
+
+      var count = 0
+      xmlSplit.on('data', function(data) {
+        count++
+      }).on('end', function() {
+        count.should.be.eql(2)
+        done()
+      })
+    })
+
+    it('should parse file line by line', function(done) {
+      var xmlSplit = new XmlSplit(1, 'book')
+
+      fs.readFileSync(path.resolve(__dirname, fixtureFilename), 'utf8')
+      .split(/\n/)
+      .forEach(function(line) {
+        xmlSplit.write(line + "\n", 'utf8')
+      })
+      xmlSplit.end()
+
+      var count = 0
+      xmlSplit.on('data', function(data) {
+        count++
+      }).on('end', function() {
+        count.should.be.eql(2)
+        done()
+      })
+    })
+
+
+  })
+
 })
