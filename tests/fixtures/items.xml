@@ -16,9 +16,9 @@
 			</xml>
 		</some>
 	</item>
-	<item id=2>only text value</item>
-	<item id=3>only text value</item>
-	<item id=4>only text value</item>
+	<item id=2></item>
+	<item id=3/>
+	<item id=4 />
 	<item id=5>only text value</item>
 	<item id=6>only text value</item>
 	<item id=7>only text value</item>
